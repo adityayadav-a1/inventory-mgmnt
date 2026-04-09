@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Inventory System</title>
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+
+<body>
+
+<div class="container">
+
+    <button onclick="logout()" class="logout-btn">Logout</button>
+
+    <h1 class="title">Inventory System</h1>
+
+    <div class="dashboard">
+
+        <a href="product-dashboard.html" class="card">➕ Add Product</a>
+
+        <a href="sale.html" class="card">💰 Make Sale</a>
+
+        <a href="purchase.html" class="card">📦 Purchase Stock</a>
+
+        <a href="stock.html" class="card">📊 View Stock</a>
+
+        <a href="sales-history.html" class="card">📈 Sales History</a>
+
+        <a href="supplier.html" class="card">🏢 Manage Suppliers</a>
+
+    </div>
+
+</div>
+
+<script src="/js/common.js"></script>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        checkAuth();
+    });
+</script>
+
+</body>
+</html>

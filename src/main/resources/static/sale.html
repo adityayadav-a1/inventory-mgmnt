@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Make Sale — Inventory System</title>
+    <link rel="stylesheet" href="/css/style.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+
+<body>
+<div class="container">
+
+    <button onclick="window.location.href='index.html'" class="back-btn">Back</button>
+
+    <h2>Make Sale</h2>
+
+    <!-- FORM -->
+    <input id="saleProductId" placeholder="Product ID">
+    <input id="saleQty" placeholder="Quantity">
+
+    <button onclick="makeSale()">Sell</button>
+
+    <!-- STOCK TABLE -->
+    <h3>Available Stock</h3>
+
+    <table>
+        <thead>
+        <tr>
+            <th>ID</th>
+            <th>Name</th>
+            <th>Supplier</th>
+            <th>Quantity</th>
+        </tr>
+        </thead>
+        <tbody id="stockTable"></tbody>
+    </table>
+    <div class="chart-container">
+        <canvas id="stockChart"></canvas>
+    </div>
+
+</div>
+
+<script src="/js/common.js"></script>
+<script src="/js/sales.js"></script>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        checkAuth();
+        loadStock();
+    });
+</script>
+
+</body>
+</html>

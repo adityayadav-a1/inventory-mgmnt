@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Product Dashboard — Inventory System</title>
+    <link rel="stylesheet" href="/css/style.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+
+<body>
+<div class="container">
+
+    <button onclick="goBack()" class="back-btn">Back</button>
+
+    <h2>Product Dashboard</h2>
+
+    <!-- FORM -->
+    <input id="name" placeholder="Name">
+    <input id="price" placeholder="Price">
+    <input id="quantity" placeholder="Quantity">
+    <input id="supplierId" placeholder="Supplier ID">
+
+    <button onclick="saveProduct()">Save</button>
+
+    <!-- SUPPLIERS -->
+    <h3>Available Suppliers</h3>
+
+    <table border="1" width="100%">
+        <thead>
+        <tr>
+            <th>ID</th>
+            <th>Name</th>
+            <th>Contact</th>
+        </tr>
+        </thead>
+        <tbody id="supplierTable"></tbody>
+    </table>
+
+    <!-- TABLE -->
+    <h3>Inventory</h3>
+
+    <table>
+        <thead>
+        <tr>
+            <th>ID</th>
+            <th>Name</th>
+            <th>Price</th>
+            <th>Supplier</th>
+            <th>Qty</th>
+            <th>Actions</th>
+        </tr>
+        </thead>
+        <tbody id="productTable"></tbody>
+    </table>
+
+    <!-- CHART -->
+    <div class="chart-container">
+        <canvas id="productChart"></canvas>
+    </div>
+
+</div>
+
+<script src="/js/common.js"></script>
+<script src="/js/product-dashboard.js"></script>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        checkAuth();
+        loadProducts();
+        loadSuppliers();
+    });
+</script>
+
+</body>
+</html>

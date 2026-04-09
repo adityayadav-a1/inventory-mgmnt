@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Stock — Inventory System</title>
+    <link rel="stylesheet" href="/css/style.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+
+<body>
+<div class="container">
+
+    <button onclick="goBack()" class="back-btn">Back</button>
+
+    <h2>Stock</h2>
+
+    <input id="searchId" placeholder="Product ID">
+    <input id="searchName" placeholder="Search by Name">
+    <input id="searchSupplier" placeholder="Supplier ID">
+
+    <button onclick="search()">Search</button>
+    <button onclick="loadStock()">Refresh</button>
+
+    <table>
+        <thead>
+        <tr>
+            <th>ID</th><th>Name</th><th>Supplier</th><th>Qty</th>
+        </tr>
+        </thead>
+        <tbody id="stockTable"></tbody>
+    </table>
+
+    <div class="chart-container">
+        <canvas id="stockChart"></canvas>
+    </div>
+
+</div>
+
+<script src="/js/common.js"></script>
+<script src="/js/stock.js"></script>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        checkAuth();
+        loadStock();
+    });
+</script>
+
+</body>
+</html>

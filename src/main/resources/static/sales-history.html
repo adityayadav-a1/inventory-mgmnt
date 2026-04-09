@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Sales History — Inventory System</title>
+    <link rel="stylesheet" href="/css/style.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+
+<body>
+<div class="container">
+
+    <button onclick="goBack()" class="back-btn">Back</button>
+
+    <h2>Sales History</h2>
+
+    <!-- SEARCH -->
+    <input type="date" id="searchDate">
+    <button onclick="searchByDate()">Search</button>
+    <button onclick="loadSales()">Refresh</button>
+
+    <!-- TABLE -->
+    <table>
+        <thead id="tableHead"></thead>
+        <tbody id="salesTable"></tbody>
+    </table>
+
+    <!-- CHART -->
+    <div class="chart-container">
+        <canvas id="salesChart"></canvas>
+    </div>
+
+</div>
+
+<script src="/js/common.js"></script>
+<script src="/js/history.js"></script>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        checkAuth();
+        loadSales();
+    });
+</script>
+
+</body>
+</html>

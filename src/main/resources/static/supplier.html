@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Supplier Management — Inventory System</title>
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+
+<body>
+<div class="container">
+    <button onclick="goBack()" class="back-btn">⬅ Back</button>
+<h2>Supplier Management</h2>
+
+
+<!-- ADD / UPDATE SUPPLIER -->
+<h3>Add / Update Supplier</h3>
+
+<input id="supplierName" placeholder="Supplier Name">
+<input id="supplierContact" placeholder="Contact">
+<input id="supplierAddress" placeholder="Address">
+
+<button onclick="addSupplier()">Save Supplier</button>
+
+<br><br>
+
+<!-- SUPPLIER LIST -->
+<h3>Supplier List</h3>
+
+<button onclick="loadSuppliers()">Refresh</button>
+
+<table border="1">
+    <thead>
+    <tr>
+        <th>ID</th>
+        <th>Name</th>
+        <th>Contact</th>
+        <th>Address</th>
+        <th>Action</th>
+    </tr>
+    </thead>
+
+    <tbody id="supplierTable"></tbody>
+
+</table>
+</div>
+
+<script src="/js/common.js"></script>
+<script src="/js/supplier.js"></script>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        checkAuth();
+        loadSuppliers();
+    });
+</script>
+
+</body>
+</html>

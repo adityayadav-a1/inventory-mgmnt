@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Purchase Stock — Inventory System</title>
+    <link rel="stylesheet" href="/css/style.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+
+<body>
+
+<div class="container">
+
+    <button onclick="goBack()" class="back-btn">Back</button>
+
+    <h2>Purchase Stock</h2>
+
+    <input id="purchaseProductId" placeholder="Product ID">
+    <input id="purchaseQty" placeholder="Quantity">
+
+    <button onclick="makePurchase()">Purchase</button>
+
+    <h3>Available Stock</h3>
+
+    <table>
+        <thead>
+        <tr>
+            <th>ID</th>
+            <th>Name</th>
+            <th>Supplier</th>
+            <th>Quantity</th>
+        </tr>
+        </thead>
+        <tbody id="stockTable"></tbody>
+    </table>
+
+    <div class="chart-container">
+        <canvas id="purchaseChart"></canvas>
+    </div>
+
+</div>
+
+<script src="/js/common.js"></script>
+<script src="/js/purchase.js"></script>
+
+<script>
+    let chart;
+
+    function loadStock() {
+        const user = JSON.parse(localStorage.getItem("user"));
+
+        fetch(`/products/user/${user.id}`)
+            .then(res => res.json())
+            .then(data => {
+                const table = document.getElementById("stockTable");
+                table.innerHTML = "";
+
+                let labels = [];
+                let quantities = [];
+
+                data.forEach(p => {
+                    table.innerHTML += `
+                    <tr>
+                        <td>${p.id}</td>
+                        <td>${p.name}</td>
+                        <td>${p.supplierId}</td>
+                        <td>${p.quantity}</td>
+                    </tr>`;
+
+                    labels.push(p.name);
+                    quantities.push(p.quantity);
+                });
+
+                if (chart) chart.destroy();
+
+                chart = new Chart(document.getElementById("purchaseChart"), {
+                    type: 'bar',
+                    data: {
+                        labels: labels,
+                        datasets: [{
+                            label: 'Live Stock',
+                            data: quantities,
+                            backgroundColor: quantities.map(q => q < 5 ? 'red' : 'green')
+                        }]
+                    }
+                });
+            });
+    }
+
+    document.addEventListener("DOMContentLoaded", function () {
+        checkAuth();
+        loadStock();
+    });
+</script>
+
+</body>
+</html>
