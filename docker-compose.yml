@@ -19,8 +19,7 @@ services:
       start_period: 30s
 
   app:
-    build: .
-    image: inventory-app:latest
+    image: adityaydv1/inventory-app:latest
     container_name: inventory-app
     depends_on:
       mysql:
