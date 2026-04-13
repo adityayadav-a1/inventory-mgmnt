@@ -19,7 +19,8 @@ services:
       start_period: 30s
 
   app:
-    image: sha256:b68efb3b6218f944084e3a3104a0d1e1b1c673c7ff858c60ddba7991a3026800
+    build: .
+    image: inventory-app:latest
     container_name: inventory-app
     depends_on:
       mysql:
