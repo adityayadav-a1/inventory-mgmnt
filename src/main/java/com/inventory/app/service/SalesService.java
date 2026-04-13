@@ -24,6 +24,10 @@ public class SalesService {
         Product product = productRepo.findById(sale.getProductId())
                 .orElseThrow(() -> new ResourceNotFoundException("Product not found with id: " + sale.getProductId()));
 
+        if (product.getUserId() != sale.getUserId()) {
+            throw new RuntimeException("Cannot sell product belonging to another user");
+        }
+
         if (product.getQuantity() < sale.getQuantity()) {
             throw new RuntimeException("Not enough stock available. Current stock: " + product.getQuantity());
         }

@@ -29,8 +29,11 @@ public class ProductService {
 
     public Product addProduct(Product product) {
 
-        if (!supplierRepo.existsById(product.getSupplierId())) {
-            throw new RuntimeException("Supplier ID does not exist");
+        com.inventory.app.model.Supplier supplier = supplierRepo.findById(product.getSupplierId())
+                .orElseThrow(() -> new RuntimeException("Supplier ID does not exist"));
+
+        if (supplier.getUserId() != product.getUserId()) {
+            throw new RuntimeException("Cannot use supplier belonging to another user");
         }
 
         if (repo.existsByNameAndSupplierId(product.getName(), product.getSupplierId())) {
@@ -45,10 +48,14 @@ public class ProductService {
     }
 
     @Transactional
-    public void deleteProduct(int id) {
+    public void deleteProduct(int id, int userId) {
 
         Product product = repo.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Product not found with id: " + id));
+
+        if (product.getUserId() != userId) {
+            throw new RuntimeException("Cannot delete product belonging to another user");
+        }
 
         // Delete from child tables first
         salesRepository.deleteByProductId(id);
@@ -61,6 +68,10 @@ public class ProductService {
     public Product updateProduct(int id, Product updated) {
         Product p = repo.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Product not found with id: " + id));
+
+        if (p.getUserId() != updated.getUserId()) {
+            throw new RuntimeException("Cannot update product belonging to another user");
+        }
 
         if (repo.existsByNameAndSupplierId(updated.getName(), updated.getSupplierId())
                 && !p.getName().equals(updated.getName())) {

@@ -22,8 +22,8 @@ public class SupplierController {
     }
 
     @DeleteMapping("/{id}")
-    public void deleteSupplier(@PathVariable int id) {
-        service.deleteSupplier(id);
+    public void deleteSupplier(@PathVariable int id, @RequestParam int userId) {
+        service.deleteSupplier(id, userId);
     }
 
     @PutMapping("/{id}")

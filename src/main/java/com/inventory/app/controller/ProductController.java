@@ -33,8 +33,8 @@ public class ProductController {
     }
 
     @DeleteMapping("/{id}")
-    public String delete(@PathVariable int id) {
-        service.deleteProduct(id);
+    public String delete(@PathVariable int id, @RequestParam int userId) {
+        service.deleteProduct(id, userId);
         return "Product deleted successfully";
     }
 

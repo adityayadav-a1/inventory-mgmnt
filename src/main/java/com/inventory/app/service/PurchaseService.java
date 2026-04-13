@@ -24,6 +24,10 @@ public class PurchaseService {
         Product product = productRepo.findById(purchase.getProductId())
                 .orElseThrow(() -> new ResourceNotFoundException("Product not found with id: " + purchase.getProductId()));
 
+        if (product.getUserId() != purchase.getUserId()) {
+            throw new RuntimeException("Cannot purchase product belonging to another user");
+        }
+
         product.setQuantity(product.getQuantity() + purchase.getQuantity());
         productRepo.save(product);
 

@@ -1,7 +1,7 @@
 let chart;
 
 // Load default (date-wise)
-function loadSales() {
+function loadPurchases() {
     const user = JSON.parse(localStorage.getItem("user"));
 
     if (!user) {
@@ -9,7 +9,7 @@ function loadSales() {
         return;
     }
 
-    fetch(`/sales/user/${user.id}`)
+    fetch(`/purchase/user/${user.id}`)
         .then(res => res.json())
         .then(data => {
 
@@ -21,7 +21,7 @@ function loadSales() {
             let grouped = {};
 
             data.forEach(s => {
-                let date = s.saleDate ? s.saleDate.split("T")[0] : "Unknown Date";
+                let date = s.purchaseDate ? s.purchaseDate.split("T")[0] : "Unknown Date";
 
                 if (!grouped[date]) grouped[date] = 0;
 
@@ -33,16 +33,15 @@ function loadSales() {
             renderChart(
                 Object.keys(grouped),
                 Object.values(grouped),
-                "Sales Per Day"
+                "Purchases Per Day"
             );
         })
         .catch(err => console.error(err));
 }
 
-// Table (date view)
 function renderTableDate(grouped) {
     const head = document.getElementById("tableHead");
-    const table = document.getElementById("salesTable");
+    const table = document.getElementById("purchasesTable");
 
     head.innerHTML = `
         <tr>
@@ -56,10 +55,10 @@ function renderTableDate(grouped) {
     if (Object.keys(grouped).length === 0) {
         table.innerHTML = `
             <tr>
-                <td colspan="2">No sales made</td>
+                <td colspan="2">No purchases made</td>
             </tr>
         `;
-        renderChart([], [], "No Sales");
+        renderChart([], [], "No Purchases");
         return;
     }
 
@@ -85,13 +84,13 @@ function searchByDate() {
     }
 
     Promise.all([
-        fetch(`/sales/user/${user.id}`).then(res => res.json()),
+        fetch(`/purchase/user/${user.id}`).then(res => res.json()),
         fetch(`/products/user/${user.id}`).then(res => res.json())
     ])
-    .then(([salesData, productData]) => {
+    .then(([purchaseData, productData]) => {
 
-        if (!Array.isArray(salesData)) {
-            console.error("Sales data is not array:", salesData);
+        if (!Array.isArray(purchaseData)) {
+            console.error("Purchase data is not array:", purchaseData);
             return;
         }
 
@@ -102,8 +101,8 @@ function searchByDate() {
         });
 
         // Filter by date
-        let filtered = salesData.filter(s =>
-            (input === "") || (s.saleDate && s.saleDate.startsWith(input)) || (!s.saleDate && input === "Unknown Date")
+        let filtered = purchaseData.filter(s =>
+            (input === "") || (s.purchaseDate && s.purchaseDate.startsWith(input)) || (!s.purchaseDate && input === "Unknown Date")
         );
 
         // Group by product
@@ -124,7 +123,7 @@ function searchByDate() {
         renderChart(
             Object.values(grouped).map(g => g.name),
             Object.values(grouped).map(g => g.qty),
-            "Product Sales"
+            "Product Purchases"
         );
     })
     .catch(err => console.error(err));
@@ -134,13 +133,13 @@ function searchByDate() {
 // Table (product view — full)
 function renderTableProductFull(grouped) {
     const head = document.getElementById("tableHead");
-    const table = document.getElementById("salesTable");
+    const table = document.getElementById("purchasesTable");
 
     head.innerHTML = `
         <tr>
             <th>Product ID</th>
             <th>Product Name</th>
-            <th>Quantity Sold</th>
+            <th>Quantity Purchased</th>
         </tr>
     `;
 
@@ -167,7 +166,7 @@ function renderTableProductFull(grouped) {
 
 // Chart
 function renderChart(labels, values, labelName) {
-    const canvas = document.getElementById("salesChart");
+    const canvas = document.getElementById("purchasesChart");
 
     if (!canvas) return;
 
@@ -179,7 +178,7 @@ function renderChart(labels, values, labelName) {
             data: {
                 labels: ["No Data"],
                 datasets: [{
-                    label: "No Sales",
+                    label: "No Purchases",
                     data: [0],
                     backgroundColor: '#ccc'
                 }]

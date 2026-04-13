@@ -74,7 +74,8 @@ function addSupplier() {
 
 // DELETE
 function deleteSupplier(id) {
-    fetch(`/suppliers/${id}`, {
+    const user = JSON.parse(localStorage.getItem("user"));
+    fetch(`/suppliers/${id}?userId=${user.id}`, {
         method: "DELETE"
     })
     .then(res => {

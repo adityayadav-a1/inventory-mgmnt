@@ -83,7 +83,8 @@ function editProduct(id, name, price, qty, supplier) {
 
 // Delete
 function deleteProduct(id) {
-    fetch("/products/" + id, { method: "DELETE" })
+    const user = JSON.parse(localStorage.getItem("user"));
+    fetch("/products/" + id + "?userId=" + user.id, { method: "DELETE" })
         .then(() => loadProducts());
 }
 
