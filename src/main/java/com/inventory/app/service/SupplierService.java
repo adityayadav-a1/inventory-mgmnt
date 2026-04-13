@@ -20,6 +20,9 @@ public class SupplierService {
     private ProductRepository productRepository;
 
     public Supplier addSupplier(Supplier supplier) {
+        if (supplierRepository.findByContact(supplier.getContact()) != null) {
+            throw new RuntimeException("Contact number is already registered to another supplier");
+        }
         return supplierRepository.save(supplier);
     }
 
@@ -47,6 +50,11 @@ public class SupplierService {
 
         if (supplier.getUserId() != updatedSupplier.getUserId()) {
             throw new RuntimeException("Cannot update supplier belonging to another user");
+        }
+
+        Supplier existingByContact = supplierRepository.findByContact(updatedSupplier.getContact());
+        if (existingByContact != null && !existingByContact.getId().equals(id)) {
+            throw new RuntimeException("Contact number is already registered to another supplier");
         }
 
         supplier.setName(updatedSupplier.getName());

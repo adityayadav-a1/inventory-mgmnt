@@ -53,8 +53,13 @@ function addSupplier() {
     })
     .then(async res => {
         if (!res.ok) {
-            const error = await res.json();
-            throw new Error(error.error || "Operation failed");
+            const errorData = await res.json().catch(() => ({}));
+            let errMsg = errorData.error;
+            if (!errMsg) {
+                const values = Object.values(errorData);
+                if (values.length > 0) errMsg = values.join("\\n");
+            }
+            throw new Error(errMsg || "Operation failed");
         }
         return res.json();
     })
@@ -78,9 +83,10 @@ function deleteSupplier(id) {
     fetch(`/suppliers/${id}?userId=${user.id}`, {
         method: "DELETE"
     })
-    .then(res => {
+    .then(async res => {
         if (!res.ok) {
-            return res.text().then(msg => { throw new Error(msg); });
+            const errorData = await res.json().catch(() => ({ timeout: "Operation failed" }));
+            throw new Error(errorData.error || "Operation failed");
         }
         alert("Supplier Deleted");
         loadSuppliers();

@@ -8,4 +8,6 @@ import java.util.List;
 public interface SupplierRepository extends JpaRepository<Supplier, Integer> {
 
     List<Supplier> findByUserId(int userId);
+
+    Supplier findByContact(String contact);
 }
